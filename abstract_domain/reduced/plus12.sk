@@ -1,0 +1,169 @@
+/*
+void reduction(ref int l1, ref int r1, ref int l2, ref int r2){
+    int max = l1 > l2 ? l1 : l2;
+    int min = r1 < r2 ? r1 : r2;
+
+    if(max % 2 == 1 || (max % 2) == -1){
+        l2 = max - 1;
+    }
+    else{
+        l1 = max - 1;
+    }
+    if(min % 2 == 1 || (max % 2) == -1){
+        r2 = min + 1;
+    }
+    else{
+        r1 = min + 1;
+    }
+}
+*/
+
+void reduction(ref int l1, ref int r1, ref int l2, ref int r2){
+    int concreteLeft = l1 > l2 ? l1 : l2;
+    int concreteRight = r1 < r2 ? r1 : r2;
+
+    if(concreteLeft % 2 != 0){
+        l2 = concreteLeft - 1;
+    }
+    else{
+        l1 = concreteLeft - 1;
+    }
+    if(concreteRight % 2 != 0){
+        r2 = concreteRight + 1;
+    }
+    else{
+        r1 = concreteRight + 1;
+    }
+}
+
+
+
+
+int absleftEven(int oddLeft1, int oddRight1, int evenLeft1, int evenRight1, int oddLeft2, int oddRight2, int evenLeft2, int evenRight2){
+    //reduction(oddLeft1, oddRight1, evenLeft1, evenRight1);
+    //reduction(oddLeft2, oddRight2, evenLeft2, evenRight2);
+    int e = recOdd(oddLeft1, oddRight1, evenLeft1, evenRight1, oddLeft2, oddRight2, evenLeft2, evenRight2, 1);
+    int _out = 0;
+    // int _out, a = recOdd(oddLeft1, oddRight1, evenLeft1, evenRight1, oddLeft2, oddRight2, evenLeft2, evenRight2, 2);//min({| oddLeft1 | oddRight1 |}, {| evenLeft1 | evenRight1 |}) + min({| oddLeft2 | oddRight2 |}, {| evenLeft2 | evenRight2 |});
+
+    /*
+    int a = max({| oddLeft1 | oddRight1 |}, {| evenLeft1 | evenRight1 |}) + max({| oddLeft2 | oddRight2 |}, {| evenLeft2 | evenRight2 |});
+    int b = min({| oddLeft1 | oddRight1 |}, {| evenLeft1 | evenRight1 |}) + min({| oddLeft2 | oddRight2 |}, {| evenLeft2 | evenRight2 |});
+    int c = min({| oddLeft1 | oddRight1 |}, {| evenLeft1 | evenRight1 |}) + max({| oddLeft2 | oddRight2 |}, {| evenLeft2 | evenRight2 |});
+    int d = max({| oddLeft1 | oddRight1 |}, {| evenLeft1 | evenRight1 |}) + min({| oddLeft2 | oddRight2 |}, {| evenLeft2 | evenRight2 |});
+    int e = {| a | b | c | d|};
+    */
+
+    if({| isEven(e) | isOdd(e) |}){ _out = e + {| 1 | -1 | 0 |}; }
+    else{  _out = e /*+ {| 1 | -1 | 0 |}*/ ; }
+        
+    assume _out % 2 == 0;
+    return _out;
+}
+
+int absrightEven(int oddLeft1, int oddRight1, int evenLeft1, int evenRight1, int oddLeft2, int oddRight2, int evenLeft2, int evenRight2){
+    //reduction(oddLeft1, oddRight1, evenLeft1, evenRight1);
+    //reduction(oddLeft2, oddRight2, evenLeft2, evenRight2);
+    int e = recOdd(oddLeft1, oddRight1, evenLeft1, evenRight1, oddLeft2, oddRight2, evenLeft2, evenRight2, 1);
+    int _out = 0;
+    // int _out, a = recOdd(oddLeft1, oddRight1, evenLeft1, evenRight1, oddLeft2, oddRight2, evenLeft2, evenRight2, 2);//min({| oddLeft1 | oddRight1 |}, {| evenLeft1 | evenRight1 |}) + min({| oddLeft2 | oddRight2 |}, {| evenLeft2 | evenRight2 |});
+
+    /*
+    int a = max({| oddLeft1 | oddRight1 |}, {| evenLeft1 | evenRight1 |}) + max({| oddLeft2 | oddRight2 |}, {| evenLeft2 | evenRight2 |});
+    int b = min({| oddLeft1 | oddRight1 |}, {| evenLeft1 | evenRight1 |}) + min({| oddLeft2 | oddRight2 |}, {| evenLeft2 | evenRight2 |});
+    int c = min({| oddLeft1 | oddRight1 |}, {| evenLeft1 | evenRight1 |}) + max({| oddLeft2 | oddRight2 |}, {| evenLeft2 | evenRight2 |});
+    int d = max({| oddLeft1 | oddRight1 |}, {| evenLeft1 | evenRight1 |}) + min({| oddLeft2 | oddRight2 |}, {| evenLeft2 | evenRight2 |});
+    int e = {| a | b | c | d|};
+    */
+
+    if({| isEven(e) | isOdd(e) |}){ _out = e + {| 1 | -1 | 0 |}; }
+    else{  _out = e /*+ {| 1 | -1 | 0 |}*/ ; }
+    assume _out % 2 == 0;
+    return _out;
+}
+
+int absleftOdd(int oddLeft1, int oddRight1, int evenLeft1, int evenRight1, int oddLeft2, int oddRight2, int evenLeft2, int evenRight2){
+    //reduction(oddLeft1, oddRight1, evenLeft1, evenRight1);
+    //reduction(oddLeft2, oddRight2, evenLeft2, evenRight2);
+    int _out = 0;
+    int e = recOdd(oddLeft1, oddRight1, evenLeft1, evenRight1, oddLeft2, oddRight2, evenLeft2, evenRight2, 1); //min({| oddLeft1 | oddRight1 |}, {| evenLeft1 | evenRight1 |}) + min({| oddLeft2 | oddRight2 |}, {| evenLeft2 | evenRight2 |});
+    
+    /*
+    int a = max({| oddLeft1 | oddRight1 |}, {| evenLeft1 | evenRight1 |}) + max({| oddLeft2 | oddRight2 |}, {| evenLeft2 | evenRight2 |});
+    int b = min({| oddLeft1 | oddRight1 |}, {| evenLeft1 | evenRight1 |}) + min({| oddLeft2 | oddRight2 |}, {| evenLeft2 | evenRight2 |});
+    int c = min({| oddLeft1 | oddRight1 |}, {| evenLeft1 | evenRight1 |}) + max({| oddLeft2 | oddRight2 |}, {| evenLeft2 | evenRight2 |});
+    int d = max({| oddLeft1 | oddRight1 |}, {| evenLeft1 | evenRight1 |}) + min({| oddLeft2 | oddRight2 |}, {| evenLeft2 | evenRight2 |});
+    int e = {| a | b | c | d|};
+    */
+    
+    if({| isEven(e) | isOdd(e) |}){ _out = e + {| 1 | -1 | 0 |}; }
+    else{  _out = e /*+ {| 1 | -1 | 0 |}*/; }
+    assume _out % 2 != 0; 
+    return _out;
+}
+
+int absrightOdd(int oddLeft1, int oddRight1, int evenLeft1, int evenRight1, int oddLeft2, int oddRight2, int evenLeft2, int evenRight2){
+    //reduction(oddLeft1, oddRight1, evenLeft1, evenRight1);
+    //reduction(oddLeft2, oddRight2, evenLeft2, evenRight2);
+    int _out = 0;
+    int  e = recOdd(oddLeft1, oddRight1, evenLeft1, evenRight1, oddLeft2, oddRight2, evenLeft2, evenRight2, 1); //min({| oddLeft1 | oddRight1 |}, {| evenLeft1 | evenRight1 |}) + min({| oddLeft2 | oddRight2 |}, {| evenLeft2 | evenRight2 |});
+
+    /*
+    int a = max({| oddLeft1 | oddRight1 |}, {| evenLeft1 | evenRight1 |}) + max({| oddLeft2 | oddRight2 |}, {| evenLeft2 | evenRight2 |});
+    int b = min({| oddLeft1 | oddRight1 |}, {| evenLeft1 | evenRight1 |}) + min({| oddLeft2 | oddRight2 |}, {| evenLeft2 | evenRight2 |});
+    int c = min({| oddLeft1 | oddRight1 |}, {| evenLeft1 | evenRight1 |}) + max({| oddLeft2 | oddRight2 |}, {| evenLeft2 | evenRight2 |});
+    int d = max({| oddLeft1 | oddRight1 |}, {| evenLeft1 | evenRight1 |}) + min({| oddLeft2 | oddRight2 |}, {| evenLeft2 | evenRight2 |});
+    int e = {| a | b | c | d|};
+    */
+
+    if({| isEven(e) | isOdd(e) |}){ _out = e + {| 1 | -1 | 0 |}; }
+    else{  _out = e /*+ {| 1 | -1 | 0 |}*/; }
+    assume _out % 2 != 0; 
+    return _out;
+}
+
+
+// defining GammaCheck
+
+bit GammaCheckevenIntv(int leftOdd1, int rightOdd1, int leftEven1, int rightEven1, int leftOdd2, int rightOdd2, int leftEven2, int rightEven2, int c){
+    int left = absleftEven(leftOdd1, rightOdd1, leftEven1, rightEven1, leftOdd2, rightOdd2, leftEven2, rightEven2);
+    int right = absrightEven(leftOdd1, rightOdd1, leftEven1, rightEven1, leftOdd2, rightOdd2, leftEven2, rightEven2);
+    assume left <= right;
+    return (left <= c) & (c <= right);
+}
+
+bit GammaCheckoddIntv(int leftOdd1, int rightOdd1, int leftEven1, int rightEven1, int leftOdd2, int rightOdd2, int leftEven2, int rightEven2, int c){
+    int left = absleftOdd(leftOdd1, rightOdd1, leftEven1, rightEven1, leftOdd2, rightOdd2, leftEven2, rightEven2);
+    int right = absrightOdd(leftOdd1, rightOdd1, leftEven1, rightEven1, leftOdd2, rightOdd2, leftEven2, rightEven2);
+    assume left <= right;
+    return (left <= c) & (c <= right);
+   
+}
+
+void cexOptimization(ref int cex){
+    assert cex >= -50 && cex < 50;
+}
+
+bit isOdd(int x){
+    return x % 2 == 1 || x % 2 == -1; 
+}
+
+bit isEven(int x){
+    return x % 2 == 0;
+}
+
+bit domainOpt(ref int left1,ref int right1,ref int left,ref int right){
+    assert (left <= left1 && left1 <= right) || (left1 <= left && left <= right1);
+    return domainOptoddIntv(left1, right1, left, right) &&  domainOptevenIntv(left1, right1, left, right);
+}
+
+
+bit domainOptevenIntv(ref int left1,ref int right1,ref int left,ref int right){
+   return (right - left <= 10) && (right - left >= 0) && (right % 2 == 0) && (left % 2 == 0);
+}
+
+bit domainOptoddIntv(ref int left,ref int right,ref int left1,ref int right1){
+   return (right - left <= 10) && (right - left >= 0) && ((right % 2 == 1) || (right % 2 == -1)) && ((left % 2 == 1) || (left % 2 == -1));
+}
+
+

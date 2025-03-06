@@ -1,0 +1,12 @@
+{
+        "basepath": "/home/pankaj/Documents/AbsHatSynthesis/",
+        "dsl": "reduced/L_arithmetic.sk",
+        "abstract_domain": ["reduced/arithmeticReduced.sk", "reduced/plus.py", "reduced/absReduced.c",
+                                ["absleft", "absright"]],
+        "abstract_value": [ ["left", ["int", "0"]],
+                ["right", ["int", "0"]]],
+        "extlib": "libmath.so",
+        "aux_fun": ["aux_function.c", "aux_function.sk"],
+        "tosynthesize": { "add":["int", "int", "int"]}
+}
+

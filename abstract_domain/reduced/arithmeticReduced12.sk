@@ -1,0 +1,87 @@
+int absleftEven(int l1, int r1, int l2, int r2, int l3 , int r3, int l4 , int r4){
+    int _out = rec(l1, r1, l2, r2, l3, r3, l4, r4, 2);
+    return _out;
+}
+
+int absrightEven(int l1, int r1, int l2, int r2, int l3 , int r3, int l4 , int r4){
+    int _out = rec(l1, r1, l2, r2, l3, r3, l4, r4, 2);
+    return _out;
+}
+
+int absleftOdd(int l1, int r1, int l2, int r2, int l3 , int r3, int l4 , int r4){
+    int _out = recOdd(l1, r1, l2, r2, l3, r3, l4, r4, 2);
+    return _out;
+}
+
+int absrightOdd(int l1, int r1, int l2, int r2, int l3 , int r3, int l4 , int r4){
+    int _out = recOdd(l1, r1, l2, r2, l3, r3, l4, r4, 2);
+    return _out;
+}
+
+// defining lessThan
+bit lessThan(int left1, int right1, int left2, int right2, int left3, int right3, int left4, int right4, int c1, int c2, int c3, int c4){
+
+    /*
+       int[2] x = betaOdd(c1);
+       c1 = x[0];
+       c2 = x[1];
+     */
+
+    bit oddFlag = ((absleftOdd(left1, right1, left2, right2, left3, right3, left4, right4) <= c1) && (c2 <= absrightOdd(left1, right1, left2, right2)));
+    /*
+       x = betaEven(c1);
+       c1 = x[0];
+       c2 = x[1];
+     */
+
+    bit evenFlag = ((absleftEven(left1, right1, left2, right2) <= c3) && (c4 <= absrightEven(left1, right1, left2, right2)));
+
+    return oddFlag && evenFlag;
+}
+
+void cexOptimization(ref int cex){
+    assert cex >= -50 && cex < 50;
+}
+
+bit isOdd(int x){
+    return x % 2 == 1; 
+}
+
+bit isEven(int x){
+    return x % 2 == 0;
+}
+
+int[2] betaOdd(int c){
+    if(isOdd(c)){
+        return {c, c};
+    }
+    else{
+        return {c-1, c+1};
+    }
+}
+
+int[2] betaEven(int c){
+    if(isEven(c)){
+        return {c, c};
+    }
+    else{
+        return {c-1, c+1};
+    }
+}
+
+
+int[2] beta(int c){
+    return  {c, c};
+}
+
+bit domainOpt(ref int left1,ref int right1, int left2, int right2){
+    return (right1 - left1 <= 10) && (right1 - left1 >= 0) && (right1 % 2 == 1) && (left1 % 2 == 1) && (right2 - left2 <= 10) && (right2 - left2 >= 0) && (right2 % 2 == 0) && (left2 % 2 == 0);
+}
+
+bit domainOptEven(ref int left1,ref int right1, int left2, int right2){
+    return (right1 - left1 <= 10) && (right1 - left1 >= 0) && (right1 % 2 == 0) && (left1 % 2 == 0) && (right2 - left2 <= 10) && (right2 - left2 >= 0) && (right2 % 2 == 0) && (left2 % 2 == 0);
+}
+
+bit domainOptOdd(ref int left,ref int right){
+    return (right1 - left1 <= 10) && (right1 - left1 >= 0) && (right1 % 2 == 1) && (left1 % 2 == 1) && (right2 - left2 <= 10) && (right2 - left2 >= 0) && (right2 % 2 == 1) && (left2 % 2 == 1);
+}

@@ -1,0 +1,383 @@
+pragma options "--bnd-unroll-amnt 16";
+pragma options "--slv-parallel";
+pragma options "--slv-p-cpus 4";
+
+
+#define  N  5
+#define SZ  3
+#define  K  3
+
+// lattice for NO (number and others)
+#define STRBOT   0
+#define NUMSTR   1
+#define OTHERSTR 2
+#define STRTOP   3
+
+#define NUM 1
+#define STR 2
+#define NAN 3
+
+#define BOOLTRUE  1
+#define BOOLFALSE 0
+#define BOOLBOT   3
+#define BOOLTOP   2
+
+
+#define GAP 7
+#define SPACE 10
+
+
+int[2*N][K+1] intTrim(int[2*N][K+1] aStr){
+    int[2*N][K+1] temp =  {0};
+    int i;
+    int size;
+    int row = 1;
+    for(int l = 1; l < K+1; l++){
+        size = getLength(aStr[l]);
+        if(size > 0){
+            //for leftTrim
+            for(i = 0; aStr[l][i] == SPACE; i++);
+            int start = i;
+            int k = 0;
+
+            //for rightTrim
+            for(i = size-1; aStr[l][i] == SPACE; i--);
+            int end = i;
+
+            // update the new trimmed string
+            if(start <= end){
+                for(i = start; i <= end ; i++)
+                    temp[row][k++] = aStr[l][i];
+
+                row++;
+            }
+        }
+    }
+
+    return temp;
+}
+
+
+int[2*N][K+1] toLowerSet(int[2*N][K+1] aStr1){
+    int[2*N][K+1] temp =  aStr1;
+
+    for(int i = 1; i <  K+1; i++){
+        for(int j = 0; aStr1[i][j] != 0; j++){
+            if(isupper(aStr1[i][j]))
+                temp[i][j] = aStr1[i][j] - GAP;
+        }
+    }
+    return temp;
+}
+
+int containsSet(int[2*N][K+1] arg1, int[2*N][K+1] arg2){
+     int _out1;
+     _out1 = 0;
+     bit exists = 0;
+     bit forAll = 1;
+     for(int i = 1; i < K+1; i = i + 1)
+     {
+         if((arg1[i][0]) != 0)
+         {
+             for(int j = 1; j < K+1; j = j + 1)
+             {
+                 if((arg2[j][0]) != 0)
+                 {
+                     bit forAll_s42 = 0;
+                     forAll_s42 = (contains(arg1[i],  arg2[j]) == 1 ? 1 : 0);
+                     bit forAll_s44 = forAll && forAll_s42;
+                     forAll = forAll_s44;
+                     bit exists_s46 = 0;
+                     exists_s46 = (contains(arg1[i],  arg2[j]) == 1 ? 1 : 0);
+                     bit exists_s48 = exists || exists_s46;
+                     exists = exists_s48;
+                 }
+             }
+         }
+     }
+     if(forAll && exists)
+     {
+         _out1 = 1;
+         return _out1;
+     }
+     if((!(forAll)) && exists)
+     {
+         _out1 = 2;
+         return _out1;
+     }
+     if(forAll && (!(exists)))
+     {
+         _out1 = 1;
+         return _out1;
+     }
+     if((!(forAll)) && (!(exists)))
+     {
+         _out1 = 0;
+         return _out1;
+     }
+ }
+
+
+int[2*N][K+1] toUpperSet(int[2*N][K+1] aStr1){
+    int[2*N][K+1] temp =  aStr1;
+
+    for(int i = 1; i <  K + 1; i++){
+        for(int j = 0; aStr1[i][j] != 0; j++){
+            if(islower(aStr1[i][j]))
+                temp[i][j] = aStr1[i][j] + GAP;
+        }
+    }
+    return temp;
+
+}
+
+int getStrSum(int[2*N] str){
+    int sum = 0;
+    for(int i = 0; str[i] != 0; i++){
+        sum = sum + str[i];
+    }
+    return sum;
+}
+
+int getStrType(int sum){
+    if(sum <= 20){
+        return NUM;
+    }
+    else{
+        return STR;
+    }
+
+}
+
+
+ // AbsStringNumOth.scala:getCase()
+ int getNOFromSSK(int[2*N][K+1] str){
+     bit num = 0;
+     bit oth = 0;
+     int sum;
+
+     /*
+        sum <= 20 : number (NaN = 20)
+        sum  > 20 : other
+      */
+     int type;
+     for(int i = 1; i <= K ; i++){
+         if(str[i][0] != 0){
+             sum = getStrSum(str[i]);
+             type = getStrType(sum);
+             if(type == NUM){
+                 if(oth){
+                     return STRTOP;
+                 }
+                 num = 1;
+             }
+             else{
+                 if(num){
+                     return STRTOP;
+                 }
+                 oth = true;
+             }
+         }
+     }
+
+     if(num){
+         return NUMSTR;
+     } else{
+         if(oth){
+             return OTHERSTR;
+         }else{
+             return STRBOT;
+         }
+     }
+ }
+
+
+bit islower(int x){
+    return (x < 27) && (x >= 20) && (x != 0);
+}
+
+bit isupper(int x){
+    return (x >= 27);
+}
+
+bit strSetContains(int[2*N][K+1] stringSet1, int[2*N][K+1] stringSet2){
+    int count = 0;
+
+    for(int j = 0; j < K; j++){
+        if(strContains(stringSet1, stringSet2[j + 1]) && stringSet2[j+1][0] != 0)
+            count++;
+    }
+
+    int sz2 = getsetSize(stringSet2);
+    if(count == sz2) return 1;
+    else return 0;
+
+}
+
+// checks whether string is in stringSet
+bit strContains(int[2*N][K+1] stringSet, int[2*N] string){
+    for(int i = 0; i < K ; i++){
+        if(stringSet[i + 1] == string)
+            return 1;
+    }
+    return 0;
+}
+
+void createString(ref int[2*N] string, int index){
+    assert index < N;
+    for(int i = 0; i< 2*N; i++){
+        if(i < index)
+            assert string[i] != 0;
+        else
+            assert string[i] == 0;
+    }
+
+}
+
+//add a null to a an array of int
+void createStringSet(ref int[2*N][K + 1] strSet, int index){
+    assert index < K + 1;
+    assert index >= 1;
+    assert strSet[0][0] <= 0;
+    int[K+1] tind = ??;
+    if(strSet[0][0] != 0){
+        for(int k = 1; k < 2*N; k++)
+            assert strSet[0][k] == 0;
+        for(int j = 1; j <= K; j++)
+            assert strSet[j] == (int[2*N]){0};
+    }
+    else{
+        for(int j = 1; j <= index; j++){
+            assert tind[j-1] <= N && tind[j-1] >= 1;
+
+            for(int i = 0; i < tind[j-1] ; i++)
+                assert strSet[j][i] != 0;
+            for(int k = tind[j-1]; k < 2*N; k++)
+                assert strSet[j][k] == 0;
+        }
+    }
+    for(int i = index + 1;i < K + 1; i++){
+        strSet[i] = (int[2*N]){0};
+    }
+}
+
+
+//find the length of array
+int getLength(int[2*N] str){
+    int len = 0;
+    for(int i = 0; i < 2*N; i++){
+        if(str[i] == 0)
+            return len;
+        len++;
+    }
+}
+
+int getsetSize(int[2*N][K + 1] set){
+    int size = 0;
+
+    for(int i = 1; i < K + 1; i++){
+        if(set[i][0] != 0)
+            size++;
+    }
+    return size;
+}
+
+int[2 * N][K + 1] concatStrSet(int[2*N][K + 1] str1, int[2*N][K + 1] str2){
+    int[2*N][K+1] temp = {0};
+    int s1 = getsetSize(str1);
+    int s2 = getsetSize(str2);
+    int m = N;
+    if(s1 * s2 > K){
+        return (int[2*m][K + 1]){1};
+    }
+
+    //int[2*N][K + 1] temp;
+
+    int id = 1;
+    for(int i = 0; i < K; i++){
+        for(int j = 0; j < K; j++){
+            if(str1[i + 1][0] != 0 && str2[j + 1][0] != 0){
+                temp[id] = concat(str1[i + 1], str2[j + 1]);
+                id++;
+            }
+        }
+    }
+    return temp;
+}
+
+bit gammaCheck(ref int[2*N][K+1] argSSK,ref int argNO, int[2*N] cex){
+    assert argSSK[0][0] == 0;
+    return gammaCheckSoundSSK(argSSK, cex) && gammaCheckSoundNO(argNO, cex);
+}
+
+bit gammaCheckSoundSSK(int[2*N][K+1] arg1SSK, int[2*N] cex){
+    /*
+        int[2*N][K+1] betaCex = {0};
+        betaCex[1] = cex;
+        return strSetContains(arg1SSK, betaCex);
+    */
+
+    if(arg1SSK[0][0] == 1)
+        return 1;
+    else
+        return strContains(arg1SSK, cex);
+}
+
+bit gammaCheckSoundBoolSSK(int output, int cex){
+
+    if(cex == BOOLBOT || output == BOOLTOP){
+        return 1;
+    }
+    else{
+        return output == cex; 
+    }
+}
+
+bit gammaCheckSoundBoolNO(int output, int cex){
+
+    if(cex == BOOLBOT || output == BOOLTOP){
+        return 1;
+    }
+    else{
+        return output == cex; 
+    }
+}
+
+
+int betaNO(int[2*N] cex){
+    int sum = getStrSum(cex);
+    int type = getStrType(sum);
+    return type;
+}
+
+bit gammaCheckSoundNO(int arg1NO, int[2*N] cex){
+    int cexNO = betaNO(cex);
+    if(cexNO == STRBOT || arg1NO == STRTOP){
+        return 1;
+    }
+    else{
+        return cexNO == arg1NO;
+    }
+}
+
+// 0 -> not a number
+// 1 -> a number
+// 2 -> Top
+// no flag for bot
+bit domainOptNO(ref int arg1NO){
+    assert arg1NO <= 2;
+    return 1;
+}
+
+bit domainOptSSK(ref int[2*N][K+1] set){
+    createStringSet(set, ??);
+    return 1;
+}
+
+bit domainOpt(ref int[2*N][K+1] arg1SSK,ref int arg1NO){
+    // Need to connect ssk and no
+    // dont know which one to give priority
+    domainOptSSK(arg1SSK);
+    domainOptNO(arg1NO);
+    return 1;
+}

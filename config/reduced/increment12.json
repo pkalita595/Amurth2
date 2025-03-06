@@ -1,0 +1,11 @@
+{
+        "basepath": "/home/pankaj/Documents/AbsHatSynthesis/",
+        "dsl": "reduced/L_increment12.sk",
+        "abstract_domain": ["reduced/increment12.sk", "reduced/increment12.py", "reduced/increment12.c",
+                                ["absleftOdd", "absrightOdd", "absleftEven", "absrightEven"]],
+        "abstract_value": [["leftOdd", ["int", "1"]], ["rightOdd", ["int", "11"]], ["leftEven", ["int", "0"]], ["rightEven", ["int", "2"]]],
+        "extlib": "libmath.so",
+        "aux_fun": ["aux_function.c", "aux_function.sk"],
+        "tosynthesize": { "increment":["int", "int"]}
+}
+

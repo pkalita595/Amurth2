@@ -1,0 +1,89 @@
+int absleftEven(int l1, int r1, int l2, int r2){
+    int _out = rec(l1, r1, l2, r2, 2);
+    assume _out % 2 == 0;
+    return _out;
+}
+
+int absrightEven(int l1, int r1, int l2, int r2){
+    int _out = rec(l1, r1, l2, r2, 2);
+    assume _out % 2 == 0;
+    return _out;
+}
+
+int absleftOdd(int l1, int r1, int l2, int r2){
+    int _out = rec(l1, r1, l2, r2, 3);
+    assume _out % 2 == 1 || _out % 2 == -1;
+    return _out;
+}
+
+int absrightOdd(int l1, int r1, int l2, int r2){
+    int _out = rec(l1, r1, l2, r2, 3);
+    assume _out % 2 == 1 || _out % 2 == -1;
+    return _out;
+}
+
+// defining lessThan
+bit lessThan(int left1, int right1, int left2, int right2, int c1, int c2){
+    int a1, a2;
+    if(isOdd(left1)){
+        int[2] x = betaOdd(c1);
+        c1 = x[0];
+        c2 = x[1];
+        a1 = absleftOdd(left1, right1, left2, right2);
+        a2 = absrightOdd(left1, right1, left2, right2);
+        domainOptOdd(a1, a2);
+        return ( a1 <= c1) && (c2 <= a2);
+    }
+    else{ 
+        int[2] x = betaEven(c1);
+        c1 = x[0];
+        c2 = x[1];
+        a1 = absleftEven(left1, right1, left2, right2);
+        a2 = absrightEven(left1, right1, left2, right2);
+        domainOptEven(a1, a2);
+        return ( a1 <= c1) && (c2 <= a2);
+    }
+}
+
+void cexOptimization(ref int cex){
+    assert cex >= -50 && cex < 50;
+}
+
+bit isOdd(int x){
+   return x % 2 == 1 || x % 2 == -1; 
+}
+
+bit isEven(int x){
+    return x % 2 == 0;
+}
+
+int[2] betaOdd(int c){
+    if(isOdd(c)){
+        return {c, c};
+    }
+    else{
+        return {c-1, c+1};
+    }
+}
+
+int[2] betaEven(int c){
+    if(isEven(c)){
+        return {c, c};
+    }
+    else{
+        return {c-1, c+1};
+    }
+}
+
+
+int[2] beta(int c){
+    return  {c, c};
+}
+
+bit domainOptEven(ref int left,ref int right){
+        return (right - left <= 10) && (right - left >= 0) && (right % 2 == 0) && (left % 2 == 0);
+}
+
+bit domainOptOdd(ref int left,ref int right){
+        return (right - left <= 10) && (right - left >= 0) && (right % 2 == 1 || right % 2 == -1) && (left % 2 == 1 || left % 2 == -1);
+}

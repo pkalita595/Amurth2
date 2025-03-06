@@ -1,0 +1,30 @@
+int min(int a, int b){
+    int _out;
+    if (a<b) _out = a;
+    else _out = b;
+    return _out;
+}
+
+int max(int a, int b){
+    int _out;
+    if (a>b) _out = a;
+    else _out = b;
+    return _out;
+}
+
+//concatenate
+int[2*N] concate(int[2*N] str1, int[2*N] str2){
+        int[2*N] temp;
+        int i;
+        for(i=0; str1[i] != 0; i++){
+                temp[i] = str1[i];
+        }
+        int j = i;
+        for(i=0; str2[i] != 0; i++){
+                temp[j] = str2[i];
+                j++;
+        }
+        temp[j] = 0;
+        return temp;
+}
+

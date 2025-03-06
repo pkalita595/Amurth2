@@ -1,0 +1,168 @@
+int increment(int x){
+    return x+1;
+}
+
+bit fPrimeCons(ref int leftOdd1, ref int rightOdd1, ref int leftEven1, ref int rightEven1, ref int cex){
+    int aLeft = leftOdd1 < leftEven1 ? leftEven1 : leftOdd1; // absleftOdd(leftOdd1, rightOdd1, leftEven1, rightEven1);
+    int aRight = rightOdd1 < rightEven1 ? rightEven1 : rightOdd1; //absrightOdd(leftOdd1, rightOdd1, leftEven1, rightEven1);
+    return cex < increment(aLeft) || cex > increment(aRight);
+}
+
+void reduction(ref int l1, ref int r1, ref int l2, ref int r2){
+    int max = l1 > l2 ? l1 : l2;
+    int min = r1 < r2 ? r1 : r2;
+    
+    if(max % 2 == 1 || (max % 2) == -1){
+        l2 = max - 1;
+    }
+    else{
+        l1 = max - 1;
+    }
+    if(min % 2 == 1 || (max % 2) == -1){
+        r2 = min + 1;
+    }
+    else{
+        r1 = min + 1;
+    }
+}
+
+int absleftEven(int oddLeft, int oddRight, int evenLeft, int evenRight){
+    reduction(oddLeft, oddRight, evenLeft, evenRight);
+    int _out = recOdd(oddLeft, oddRight, evenLeft, evenRight, 2);
+    assume _out % 2 == 0;
+    return _out;
+}
+
+int absrightEven(int oddLeft, int oddRight, int evenLeft, int evenRight){
+    reduction(oddLeft, oddRight, evenLeft, evenRight);
+    int _out = recOdd(oddLeft, oddRight, evenLeft, evenRight, 2);
+    assume _out % 2 == 0;
+    return _out;
+}
+
+int absleftOdd(int oddLeft, int oddRight, int evenLeft, int evenRight){
+    reduction(oddLeft, oddRight, evenLeft, evenRight);
+    int _out = recOdd(oddLeft, oddRight, evenLeft, evenRight, 2);
+    assume _out % 2 == 1 || _out % 2 == -1;
+    return _out;
+}
+
+int absrightOdd(int oddLeft, int oddRight, int evenLeft, int evenRight){
+    reduction(oddLeft, oddRight, evenLeft, evenRight);
+    int _out = recOdd(oddLeft, oddRight, evenLeft, evenRight, 2);
+    assume _out % 2 == 1 || _out % 2 == -1;
+    return _out;
+}
+
+
+bit isOdd(int x){
+    return x % 2 == 1 || x % 2 == -1; 
+}
+
+bit isEven(int x){
+    return x % 2 == 0;
+}
+
+int[2] betaOdd(int c){
+    if(isOdd(c)){
+        return {c, c};
+    }
+    else{
+        return {c-1, c+1};
+    }
+}
+
+int[2] betaEven(int c){
+    if(isEven(c)){
+        return {c, c};
+    }
+    else{
+        return {c-1, c+1};
+    }
+}
+
+
+int[4] beta(int c){
+    int[2] o = betaOdd(c);
+    int[2] e = betaEven(c);
+    return {o[0], o[1], e[0], e[1]};
+}
+
+// defining GammaCheck
+
+bit GammaCheckevenIntv(int leftOdd1, int rightOdd1, int leftEven1, int rightEven1, int c){
+    int aLeft = absleftEven(leftOdd1, rightOdd1, leftEven1, rightEven1);
+    int aRight = absrightEven(leftOdd1, rightOdd1, leftEven1, rightEven1);
+
+    assume aLeft <= aRight;
+
+    // assert increment(c) < aLeft || increment(c) > aRight;
+
+    bit evenFlag = ((aLeft <= c) && (c <= aRight));
+    return evenFlag;
+}
+
+bit GammaCheckoddIntv(int leftOdd1, int rightOdd1, int leftEven1, int rightEven1, int c){
+    int aLeft = absleftOdd(leftOdd1, rightOdd1, leftEven1, rightEven1);
+    int aRight = absrightOdd(leftOdd1, rightOdd1, leftEven1, rightEven1);
+
+    assume aLeft <= aRight;
+    // assert increment(c) < aLeft || increment(c) > aRight;
+    
+    bit oddFlag = ((aLeft <= c) && (c <= aRight));
+    return oddFlag;
+}
+
+void cexOptimization(ref int cex){
+    assert cex >= -50 && cex < 50;
+}
+
+
+/*
+bit domainOptevenIntv(ref int left1,ref int right1,ref int left,ref int right){
+   return (right - left <= 10) && (right - left >= 0) && (right % 2 == 0) && (left % 2 == 0);
+}
+
+bit domainOptoddIntv(ref int left,ref int right,ref int left1,ref int right1){
+   return (right - left <= 10) && (right - left >= 0) && ((right % 2 == 1) || (right % 2 == -1)) && ((left % 2 == 1) || (left % 2 == -1));
+}
+*/
+
+bit domainOpt(ref int left1,ref int right1,ref int left,ref int right){
+    return domainOptoddIntv(left1, right1, left, right) && domainOptevenIntv(left1, right1, left, right);
+}
+
+bit domainOptevenIntv(ref int left1,ref int right1, ref int left2, ref int right2){
+   return (right1 - left1 <= 10) && (right1 - left1 >= 0) && (right1 % 2 != 0) && (left1 % 2 != 0) && (right2 - left2 <= 10) && (right2 - left2 >= 0) && (right2 % 2 == 0) && (left2 % 2 == 0);
+}
+
+bit domainOptoddIntv(ref int left1, ref int right1, ref int left2, ref int right2){
+   return (right1 - left1 <= 10) && (right1 - left1 >= 0) && (right1 % 2 != 0) && (left1 % 2 != 0) && (right2 - left2 <= 10) && (right2 - left2 >= 0) && (right2 % 2 == 0) && (left2 % 2 == 0);
+}
+
+
+
+/*
+bit domainOpt(ref int left1,ref int right1, int left2, int right2){
+    return (right1 - left1 <= 20) && (right1 - left1 >= 0) && (right1 % 2 == 1 || right1 % 2 == -1) && (left1 % 2 == 1 || left1 % 2 == -1) && (right2 - left2 <= 20) && (right2 - left2 >= 0) && (right2 % 2 == 0) && (left2 % 2 == 0);
+}
+
+   bit domainOptEven(ref int left1,ref int right1, int left2, int right2){
+   return (right1 - left1 <= 10) && (right1 - left1 >= 0) && (right1 % 2 == 0) && (left1 % 2 == 0) && (right2 - left2 <= 10) && (right2 - left2 >= 0) && (right2 % 2 == 0) && (left2 % 2 == 0);
+   }
+
+   bit domainOptOdd(ref int left,ref int right){
+   return (right1 - left1 <= 10) && (right1 - left1 >= 0) && (right1 % 2 == 1) && (left1 % 2 == 1) && (right2 - left2 <= 10) && (right2 - left2 >= 0) && (right2 % 2 == 1) && (left2 % 2 == 1);
+   }
+
+   // defining lessThan
+bit lessThan(int left1, int right1, int left2, int right2, int c1, int c2, int c3, int c4){
+
+
+    bit oddFlag = ((absleftOdd(left1, right1, left2, right2) <= c1) && (c2 <= absrightOdd(left1, right1, left2, right2)));
+
+    bit evenFlag = ((absleftEven(left1, right1, left2, right2) <= c3) && (c4 <= absrightEven(left1, right1, left2, right2)));
+
+    return oddFlag && evenFlag;
+}
+ */

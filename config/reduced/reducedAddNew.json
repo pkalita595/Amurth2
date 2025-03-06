@@ -1,0 +1,13 @@
+{
+        "basepath": "/home/pankaj/Documents/AbsHatSynthesis/",
+        "dsl": "reduced/L_plus12.sk",
+        "domains": [["oddIntv", ["absleftOdd", "absrightOdd"]], ["evenIntv", ["absleftEven", "absrightEven"]]],
+        "abstract_domain": ["reduced/plus12Old.sk", "reduced/plus12.py", "reduced/increment12.c",
+                                ["absleftOdd", "absrightOdd", "absleftEven", "absrightEven"]],
+        "bottom_value": {"absleftOdd": "oddLeft1 + oddLeft2 - 1", "absrightOdd":  "oddRight1 + oddRight2 + 1", "absleftEven": "evenLeft1 + evenLeft2", "absrightEven": "evenRight1 + evenRight2"},
+        "abstract_value": [["leftOdd", ["int", "1"]], ["rightOdd", ["int", "11"]], ["leftEven", ["int", "0"]], ["rightEven", ["int", "2"]]],
+        "extlib": "libmath.so",
+        "aux_fun": ["aux_function.c", "aux_function.sk"],
+        "tosynthesize": {"add":["int", "int", "int"]}
+}
+

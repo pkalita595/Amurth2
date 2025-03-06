@@ -1,0 +1,16 @@
+{
+        "basepath": "/home/pankaj/Documents/AbsHatSynthesis/",
+        "dsl": "reduced/jsai/L_toUpper.sk",
+        "domains": [["SSK", ["absSSK"]], ["NOS", ["absNOS"]]],
+        "return_type": {"absSSK": "int[2*N][K+1]", "absNOS": "int"},
+        "string_domain": "jsai",
+        "abstract_domain": ["reduced/jsai/singleArg.sk", "reduced/jsai/toUpper.py", "reduced/jsai/jsai.c",
+                                ["absSSK","absNOS"]],
+        "bottom_value": {"absSSK": "(int[2*N][K+1]){0}", "absNOS": "3"},
+        "abstract_value": [["ssk_val", ["int[2*N][K+1]", "{0}"]], ["nos_val", ["int", "0"]]],
+        "extlib": "libmath.so",
+        "aux_fun": ["aux_function.c", "aux_function.sk"],
+        "tosynthesize": { "toUpper":["int[2*N]", "int[2*N]"]},
+        "soundness_sem": "reduced/jsai/soundnessSingleArg.sk"
+}
+

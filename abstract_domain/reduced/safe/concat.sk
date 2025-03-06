@@ -1,0 +1,239 @@
+void createString(ref int[2*N] string, int index){
+    assert index < N;
+    assert index > 1;
+    for(int i = 0; i< 2*N; i++){
+        if(i < index)
+            assert string[i] != 0;
+        else
+            assert string[i] == 0;
+    }
+
+}
+
+//add a null to a an array of int
+void createStringSet(ref int[2*N][K + 1] strSet, int index){
+    assert index < K + 1;
+    assert index >= 1;
+    assert strSet[0][0] <= 0;
+    int[K+1] tind = ??;
+    if(strSet[0][0] != 0){
+        for(int k = 1; k < 2*N; k++)
+            assert strSet[0][k] == 0;
+        for(int j = 1; j <= K; j++)
+            assert strSet[j] == (int[2*N]){0};
+    }
+    else{
+        for(int j = 1; j <= index; j++){
+            assert tind[j-1] <= N && tind[j-1] >= 1;
+
+            for(int i = 0; i < tind[j-1] ; i++)
+                assert strSet[j][i] != 0;
+            for(int k = tind[j-1]; k < 2*N; k++)
+                assert strSet[j][k] == 0;
+        }
+    }
+    for(int i = index + 1;i < K + 1; i++){
+        strSet[i] = (int[2*N]){0};
+    }
+}
+
+
+//find the length of array
+int getLength(int[2*N] str){
+    int len = 0;
+    for(int i = 0; i < 2*N; i++){
+        if(str[i] == 0)
+            return len;
+        len++;
+    }
+}
+
+int getsetSize(int[2*N][K + 1] set){
+    int size = 0;
+
+    for(int i = 1; i < K + 1; i++){
+        if(set[i][0] != 0)
+            size++;
+    }
+    return size;
+}
+
+int[2 * N][K + 1] concatStrSet(int[2*N][K + 1] str1, int[2*N][K + 1] str2){
+    int[2*N][K+1] temp = {0};
+    int s1 = getsetSize(str1);
+    int s2 = getsetSize(str2);
+    int m = N;
+    if(s1 * s2 > K){
+        return (int[2*m][K + 1]){1};
+    }
+
+    //int[2*N][K + 1] temp;
+
+    int id = 1;
+    for(int i = 0; i < K; i++){
+        for(int j = 0; j < K; j++){
+            if(str1[i + 1][0] != 0 && str2[j + 1][0] != 0){
+                temp[id] = concat(str1[i + 1], str2[j + 1]);
+                id++;
+            }
+        }
+    }
+    return temp;
+}
+
+//concatnate
+int[2*N] concat(int[2*N] str1, int[2*N] str2){
+    int[2*N] temp;
+    int i,j,k;
+    for(i = 0; str1[i] != 0; i++){
+        temp[i] = str1[i];
+    }
+    j = i;
+    for(i = 0; str2[i] != 0; i++){
+        temp[j] = str2[i];
+        j++;
+    }
+    temp[j] = 0;
+    return temp;
+}
+
+
+//whether stringSet2 is in stringSet1
+bit strSetContains(int[2*N][K+1] stringSet1, int[2*N][K+1] stringSet2){
+    int count = 0;
+
+    for(int j = 0; j < K; j++){
+        if(strContains(stringSet1, stringSet2[j + 1]) && stringSet2[j+1][0] != 0)
+            count++;
+    }
+
+    int sz2 = getsetSize(stringSet2);
+    if(count == sz2) return 1;
+    else return 0;
+
+}
+
+
+// checks whether string is in stringSet
+bit strContains(int[2*N][K+1] stringSet, int[2*N] string){
+    for(int i = 0; i < K ; i++){
+        if(stringSet[i + 1] == string)
+            return 1;
+    }
+    return 0;
+}
+
+int[2*N][K+1] beta(int[2*N*(K+1)] str){
+    int[2*N][K+1] temp = {0};
+    temp[1] = (int[2*N])str;
+    return temp;
+}
+
+
+
+
+/*
+   bit flagGen(int[2*N][K+1] arg1, int[2*N][K+1] arg2){
+   return cond(arg1, arg2, 2);
+   }
+
+   bit flagLessThan(int[2*N][K+1] arg1, int[2*N][K+1] arg2, int[2*N][K+1] c){
+   int absFlag = flagGen(arg1, arg2);
+   if(absFlag == 1){ //abstract value is TOP
+   return 1;
+   }
+   else if(c[0][0] == 2){ //counter example is BOT
+   return 1;
+   }
+   else{
+   return absFlag == c[0][0];
+   }
+   }
+ */
+
+/*
+//whether stringSet2 is in stringSet1
+bit strSetContains(int[2*N][K+1] stringSet1, int[2*N][K+1] stringSet2){
+int count = 0;
+
+for(int j = 0; j < K; j++){
+if(stringSet2[j+1][0] != 0){
+if(!strContains(stringSet1, stringSet2[j + 1]))
+return 0;
+}
+}
+
+return 1;
+}
+
+int[2*N][K + 1] absStr(int[2*N][K+1] arg1, int[2*N][K+1] arg2){
+return gen(arg1, arg2, 2);
+}
+bit lessThan(int[2*N][K+1] arg1, int[2*N][K+1] arg2, int[2*N][K+1] c){
+return strSetContains(absStr(arg1, arg2), c);
+//return absStr(arg1, arg2) == c;
+//return flagLessThan(arg1, arg2, c) && strSetContains(absStr(arg1, arg2), c);
+}
+
+
+ */
+
+int[2*N][K+1] absSSK(int[2*N][K+1] arg1SSK, int arg1NO, int[2*N][K+1] arg2SSK, int arg2NO){
+    return genSSK(arg1SSK, arg1NO, arg2SSK, arg2NO, 2);
+}
+
+int absNO(int[2*N][K+1] arg1SSK, int arg1NO, int[2*N][K+1] arg2SSK, int arg2NO){
+    return genNO(arg1SSK, arg1NO, arg2SSK, arg2NO, 2);
+}
+
+
+bit GammaCheckSSK(int[2*N][K+1] arg1SSK, int arg1NO, int[2*N][K+1] arg2SSK, int arg2NO, int[2*N] cex){
+    /*
+        int[2*N][K+1] betaCex = {0};
+        betaCex[1] = cex;
+    */
+    int[2*N][K+1] output = absSSK(arg1SSK, arg1NO, arg2SSK, arg2NO);
+    if(output[0][0] == 1) 
+        return 1;
+    else
+        return strContains(output, cex);
+}
+
+int betaNO(int[2*N] cex){
+    int sum = getStrSum(cex);
+    int type = getStrType(sum);
+    return type;
+}
+
+bit GammaCheckNO(int[2*N][K+1] arg1SSK, int arg1NO, int[2*N][K+1] arg2SSK, int arg2NO, int[2*N] cex){
+    int output = absNO(arg1SSK, arg1NO, arg2SSK, arg2NO);
+    int cexNO = betaNO(cex);
+    if(cexNO == STRBOT || output == STRTOP){
+        return 1;
+    }
+    else{
+        return output == cexNO;
+    }
+}
+
+// 0 -> not a number
+// 1 -> a number
+// 2 -> Top
+// no flag for bot
+bit domainOptNO(ref int arg1NO){
+    assert arg1NO <= 2;
+    return 1;
+}
+
+bit domainOptSSK(ref int[2*N][K+1] set){
+    createStringSet(set, ??);
+    return 1;
+}
+
+bit domainOpt(ref int[2*N][K+1] arg1SSK,ref int arg1NO){
+    // Need to connect ssk and no
+    // dont know which one to give priority
+    domainOptSSK(arg1SSK);
+    domainOptNO(arg1NO);
+    return 1;
+}
