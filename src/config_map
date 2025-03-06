@@ -1,0 +1,27 @@
+increment -> config/reduced/evenOdd/reducedIncrementNew.json 
+add -> config/reduced/evenOdd/reducedAddNew.json 
+sub -> config/reduced/evenOdd/reducedSubBest.json
+abs -> config/reduced/evenOdd/reducedAbsBest.json
+
+
+string
+
+JSAI
+~~~~
+concat   -> config/reduced/jsai/concatCSNew.json
+contains -> config/reduced/jsai/containsNew.json
+toLower  -> config/reduced/jsai/toLowerNew.json
+toUpper  -> config/reduced/jsai/toUpperNew.json
+charAt   -> config/reduced/jsai/charAt.json
+trim     -> config/reduced/jsai/trimNew.json
+
+
+SAFE
+~~~~
+concat   -> config/reduced/jsai/concat.json
+contains -> config/reduced/jsai/contains.json
+toLower  -> config/reduced/jsai/toLowerNew.json
+toUpper  -> config/reduced/jsai/toUpperNew.json
+charAt   -> config/reduced/jsai/charAt.json
+trim     -> config/reduced/jsai/trimNew.json
+

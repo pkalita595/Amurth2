@@ -1,0 +1,40 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+addCex	sketchUtil.py	/^def addCex(file1, curNex, posex, maxsatFlag, proto, gammaCheck, culprit):$/;"	f
+auxFunName	utility.py	/^auxFunName = ["min", "max", "concat", "getLength", "unionSet", "intersectionSet", "contains", "isSubset",$/;"	v
+betaOp	interval.py	/^def betaOp(config, cex):$/;"	f
+checkPosOrNeg	interval.py	/^def checkPosOrNeg(config, exList, cex):$/;"	f
+checkPrecision	oracles.py	/^def checkPrecision(config, sketchFile, reportFile, outerLoop, counter, domainMap, generator, aux_func, cexMap):$/;"	f
+checkSoundness	oracles.py	/^def checkSoundness():$/;"	f
+comment_re	utility.py	/^comment_re = re.compile($/;"	v
+comment_replacer	utility.py	/^def comment_replacer(match):$/;"	f
+config	culprit.py	/^        config = json.load(jsonFile)$/;"	v
+dumpCex	sketchUtil.py	/^def dumpCex(file1, label, info, flag, maxsatFlag, proto, gammaCheck, culprit):$/;"	f
+dumpCulpritTransformer	sketchUtil.py	/^def dumpCulpritTransformer(skfile, culpritFun, domainList, tempPath):$/;"	f
+dumpGammaCheck	sketchUtil.py	/^def dumpGammaCheck(culpritFun, domainMap, skfile, tail, tempDir):$/;"	f
+dumpHole	sketchUtil.py	/^def dumpHole(config, skfile, proto, inputLen):$/;"	f
+dumpHoleArray	sketchUtil.py	/^def dumpHoleArray(config, skfile, proto, inputLen):$/;"	f
+dumpSketchFile	sketchUtil.py	/^def dumpSketchFile(config, skfile, generator, aux_func, culpritFun, domainMap, curNex, posex, cexGenFlag, maxsatFlag):$/;"	f
+emit	utility.py	/^def emit(s, fPtr):$/;"	f
+emit_file	utility.py	/^def emit_file(s, fPtr):$/;"	f
+fSharpHat	interval.py	/^def fSharpHat(config, absVec):$/;"	f
+gammaCheck	interval.py	/^def gammaCheck(config, absVal, cex):$/;"	f
+gammaOp	interval.py	/^def gammaOp(config, absVal):$/;"	f
+getCulpritDomainFuzz	culprit.py	/^def getCulpritDomainFuzz(fileName):$/;"	f
+getCulpritNegExFuzz	culprit.py	/^def getCulpritNegExFuzz(config, negex, culprit):$/;"	f
+getFC	interval.py	/^def getFC(config, inputList):$/;"	f
+getHoleMap	sketchUtil.py	/^def getHoleMap(rootXml):$/;"	f
+getHoleMapArray	sketchUtil.py	/^def getHoleMapArray(rootXml):$/;"	f
+getLineNo	sketchUtil.py	/^def getLineNo(sketchFile, lookup):$/;"	f
+isInputArray	sketchUtil.py	/^def isInputArray(arg):$/;"	f
+joinOp	interval.py	/^def joinOp(config, in1, in2):$/;"	f
+processHoles	sketchUtil.py	/^def processHoles(config, sketchFile, holeFile, maxsatFlag, logFile ,cexMap):$/;"	f
+processParams	sketchUtil.py	/^def processParams(config, sketchFile, holeMap):$/;"	f
+processParamsArray	sketchUtil.py	/^def processParamsArray(config, proto, sketchFile, holeMap):$/;"	f
+removeRef	utility.py	/^def removeRef(config):$/;"	f
+removeRefCPP	utility.py	/^def removeRefCPP(config):$/;"	f
+remove_comments	utility.py	/^def remove_comments(text):$/;"	f

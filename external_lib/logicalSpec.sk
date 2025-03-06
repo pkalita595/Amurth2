@@ -1,0 +1,118 @@
+int increment(int a){
+    return a + 1;
+}
+
+int add(int a, int b){
+    return a + b;
+}
+
+int sub(int a, int b){
+    return a - b;
+}
+
+int abs(int a){
+    if(a < 0) return -a;
+    else      return a;
+}
+
+//concatnate
+int[2*N] concat(int[2*N] str1, int[2*N] str2){
+    int[2*N] temp;
+    int i,j,k;
+    for(i = 0; str1[i] != 0; i++){
+        temp[i] = str1[i];
+    }
+    j = i;
+    for(i = 0; str2[i] != 0; i++){
+        temp[j] = str2[i];
+        j++;
+    }
+    temp[j] = 0;
+    return temp;
+}
+struct intCP{
+    bit isTop;
+    bit isBot;
+    int value;
+}
+
+
+int[2*N] toLower(int[2*N] str){
+    int[2*N] out = {0};
+    int j = 0;
+    out[0] = 0; // concrete has no top
+    for(int i=0; str[i] != 0; i++){
+        if (isupper(str[i]))
+            out[j++] = str[i] - GAP;
+        else
+            out[j++] = str[i];
+    }
+
+    out[j] = 0;
+    return out;
+}
+
+int[2*N] toUpper(int[2*N] str){
+    int[2*N] out = {0};
+    int j = 0;
+    out[0] = 0; // concrete has no top
+    for(int i=0; str[i] != 0; i++){
+        if (islower(str[i]))
+            out[j++] = str[i] + GAP;
+        else
+            out[j++] = str[i];
+    }
+
+    out[j] = 0;
+    return out;
+}
+
+int[2*N] charAt(int[2*N] str1, int idx){
+    int[2*N] out = {0};
+    out[0] = str1[idx];
+    return out;
+}
+
+int[2*N] trim(int[2*N] str1){
+    int[2*N] temp = {0};
+    int j = 0;
+    int i;
+    int size = getLength(str1);
+    if(size > 0){
+        //for leftTrim
+        for(i = 0; str1[i] == 10; i++);
+        int start = i;
+        int k = 0;
+
+        //for rightTrim
+        for(i = size-1; str1[i] == 10; i--);
+        int end = i;
+
+        // update the new trimmed string
+        for(i = start; i <= end; i++)
+            temp[k++] = str1[i];
+
+
+        temp[k] = 0;
+    }
+    return temp;
+}
+
+int contains(int[2*N] str, int[2*N]  subStr){
+    int subLen = getLength(subStr);
+    int strLen = getLength(str);
+    int temp = 0;
+    for(int i = 0; i <= strLen - subLen; i++){
+        for(temp = 0; temp < subLen; temp++){
+            if(subStr[temp] != str[i + temp]){
+                temp = subLen + 1; // imitating break :p
+            }
+        }
+
+        if(temp == subLen){
+            return 1;
+        }
+    }
+    return 0;
+}
+
